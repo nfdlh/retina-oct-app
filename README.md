@@ -1,3 +1,21 @@
+---
+title: Retinal OCT Classification
+emoji: eye
+colorFrom: blue
+colorTo: cyan
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+license: mit
+tags:
+  - medical
+  - computer-vision
+  - pytorch
+  - healthcare
+  - sdg3
+---
+
 # Retinal OCT Classification for Damage Detection
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -105,11 +123,12 @@ The heatmaps highlight:
 
 ```
 retinal-oct-model/
-├── data/                    # Sample test images and dataset structure
-├── streamlit_app.py         # Main clinical web application
+├── app.py                   # Hugging Face Spaces entry point (Gradio)
+├── streamlit_app.py         # Clinical web application (Streamlit)
 ├── grad_cam.py              # XAI visualization module (Grad-CAM++)
 ├── test_accuracy.py         # Batch testing and evaluation script
 ├── requirements.txt         # Project dependencies
+├── data/                    # Sample test images
 ├── AGENTS.md                # Guidelines for AI development
 └── README.md                # Project documentation
 ```
@@ -125,3 +144,26 @@ This project was developed as part of the **WQF7002 AI Techniques** course (2025
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Deployment
+
+### Hugging Face Spaces
+
+This project is configured for deployment on Hugging Face Spaces:
+
+1. Create a new Space on [huggingface.co/spaces](https://huggingface.co/spaces)
+2. Select **Gradio** as the SDK
+3. Upload the following files:
+   - `app.py` (main entry point)
+   - `grad_cam.py` (XAI module)
+   - `requirements.txt`
+   - `VGG16_OCT_Retina_trained_model.pt` (model weights)
+   - `data/` folder (sample images for examples)
+4. The Space will automatically build and deploy
+
+Alternatively, use Git LFS for large model files:
+```bash
+git lfs install
+git lfs track "*.pt"
+git add .gitattributes
+```
