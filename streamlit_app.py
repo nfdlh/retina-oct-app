@@ -430,9 +430,10 @@ h1, h2, h3, h4, h5, h6 {
 footer {visibility: hidden;}
 header {visibility: hidden;}
 
-/* Hide sidebar */
+/* Sidebar styling */
 [data-testid="stSidebar"] {
-    display: none;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    border-right: 1px solid #e2e8f0;
 }
 
 /* Dark mode styles */
@@ -591,74 +592,76 @@ if "analysis_history" not in st.session_state:
 
 
 # =============================================================================
-# Top Header with User Info and Dark Mode Toggle
+# Top Header with User Info
 # =============================================================================
-header_col1, header_col2 = st.columns([6, 1])
-
-with header_col1:
-    st.markdown(
-        """
-    <div class="top-header">
-        <div class="logo-section">
-            <div class="logo-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                </svg>
-            </div>
-            <div class="logo-text">
-                <p class="logo-title">Retinal OCT Analysis</p>
-                <p class="logo-subtitle">Clinical Decision Support System</p>
-            </div>
+st.markdown(
+    """
+<div class="top-header">
+    <div class="logo-section">
+        <div class="logo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
         </div>
-        <div class="header-right">
-            <div class="user-section">
-                <div class="user-info">
-                    <p class="user-greeting">Welcome back,</p>
-                    <p class="user-name">Dr. Clinician</p>
-                </div>
-                <div class="user-avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                </div>
+        <div class="logo-text">
+            <p class="logo-title">Retinal OCT Analysis</p>
+            <p class="logo-subtitle">Clinical Decision Support System</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="user-section">
+            <div class="user-info">
+                <p class="user-greeting">Welcome back,</p>
+                <p class="user-name">Dr. Clinician</p>
+            </div>
+            <div class="user-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
             </div>
         </div>
     </div>
-    """,
-        unsafe_allow_html=True,
-    )
+</div>
+""",
+    unsafe_allow_html=True,
+)
 
 
 # =============================================================================
-# Top Navigation with Dark Mode Toggle
+# Sidebar - Settings
 # =============================================================================
-nav_col1, nav_col2 = st.columns([9, 1])
-
-with nav_col1:
-    st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-
-    selected = sac.tabs(
-        [
-            sac.TabsItem("Home", icon="house-door"),
-            sac.TabsItem("Analyze", icon="search"),
-            sac.TabsItem("History", icon="clock-history"),
-            sac.TabsItem("Model Info", icon="cpu"),
-            sac.TabsItem("About", icon="info-circle"),
-        ],
-        index=0,
-        format_func="title",
-        align="center",
+with st.sidebar:
+    st.markdown("### ⚙️ Settings")
+    dark_mode = st.toggle(
+        "Dark Mode", value=st.session_state.dark_mode, key="dark_toggle"
     )
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-with nav_col2:
-    st.markdown("<div style='padding-top: 8px;'>", unsafe_allow_html=True)
-    dark_mode = st.toggle("Dark", value=st.session_state.dark_mode, key="dark_toggle")
     if dark_mode != st.session_state.dark_mode:
         st.session_state.dark_mode = dark_mode
         st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("---")
+    st.markdown("**Retinal OCT Analysis**")
+    st.markdown("Clinical Decision Support System")
+
+
+# =============================================================================
+# Top Navigation
+# =============================================================================
+st.markdown('<div class="nav-container">', unsafe_allow_html=True)
+
+selected = sac.tabs(
+    [
+        sac.TabsItem("Home", icon="house-door"),
+        sac.TabsItem("Analyze", icon="search"),
+        sac.TabsItem("History", icon="clock-history"),
+        sac.TabsItem("Model Info", icon="cpu"),
+        sac.TabsItem("About", icon="info-circle"),
+    ],
+    index=0,
+    format_func="title",
+    align="center",
+)
+
+st.markdown("</div>", unsafe_allow_html=True)
 
 if st.session_state.dark_mode:
     st.markdown(
