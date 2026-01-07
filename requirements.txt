@@ -1,0 +1,24 @@
+# Retinal OCT Classification - Dependencies
+# Install: pip install -r requirements.txt
+
+# Core ML/DL
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Image Processing
+pillow>=9.0.0
+opencv-python>=4.8.0
+
+# Explainable AI (Grad-CAM++)
+pytorch-grad-cam>=1.5.0
+
+# Web Interface
+streamlit>=1.28.0
+streamlit-antd-components>=0.3.0
+gradio>=4.0.0
+
+# Visualization
+plotly>=5.18.0
+
+# Data Processing
+numpy>=1.24.0
