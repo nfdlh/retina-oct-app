@@ -511,8 +511,9 @@ st.markdown('<div class="nav-container">', unsafe_allow_html=True)
 selected = sac.tabs(
     [
         sac.TabsItem("Home", icon="house-door"),
-        sac.TabsItem("Dashboard", icon="graph-up"),
-        sac.TabsItem("Analyze Image", icon="search"),
+        sac.TabsItem("Analyze", icon="search"),
+        sac.TabsItem("History", icon="clock-history"),
+        sac.TabsItem("Model Info", icon="cpu"),
         sac.TabsItem("About", icon="info-circle"),
     ],
     index=0,
@@ -558,7 +559,7 @@ if st.session_state.dark_mode:
 
 
 # =============================================================================
-# Page: Home
+# Page: Home (Clinician-focused)
 # =============================================================================
 def render_home():
     col1, col2 = st.columns([2, 1])
@@ -571,13 +572,12 @@ def render_home():
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1e3a5f">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
                 </svg>
-                Welcome to Retinal OCT Analysis
+                Clinical Decision Support System
             </h3>
             <p style="color: #475569; line-height: 1.7; margin: 0;">
-                This clinical decision support system leverages advanced deep learning to analyze 
-                Optical Coherence Tomography (OCT) images for detecting retinal pathologies. 
-                Our VGG-16 model, trained on over 84,000 images, provides rapid and accurate 
-                classification with explainable AI visualization to support your clinical decisions.
+                Analyze OCT images to assist in detecting retinal pathologies. 
+                Upload a scan, receive instant classification with attention visualization 
+                highlighting the regions of clinical interest.
             </p>
         </div>
         """,
@@ -585,7 +585,7 @@ def render_home():
         )
 
         st.markdown(
-            '<h3 class="section-header">Supported Conditions</h3>',
+            '<h3 class="section-header">Detectable Conditions</h3>',
             unsafe_allow_html=True,
         )
 
@@ -596,7 +596,7 @@ def render_home():
                 <tr>
                     <th>Code</th>
                     <th>Condition</th>
-                    <th>Description</th>
+                    <th>Clinical Action</th>
                     <th>Priority</th>
                 </tr>
             </thead>
@@ -604,25 +604,25 @@ def render_home():
                 <tr>
                     <td><strong>CNV</strong></td>
                     <td>Choroidal Neovascularization</td>
-                    <td>Abnormal blood vessel growth in choroid layer</td>
+                    <td>Refer for anti-VEGF treatment</td>
                     <td><span class="status-high">High</span></td>
                 </tr>
                 <tr>
                     <td><strong>DME</strong></td>
                     <td>Diabetic Macular Edema</td>
-                    <td>Fluid accumulation from diabetic complications</td>
+                    <td>Refer for anti-VEGF / laser therapy</td>
                     <td><span class="status-high">High</span></td>
                 </tr>
                 <tr>
                     <td><strong>DRUSEN</strong></td>
                     <td>Drusen (Early AMD)</td>
-                    <td>Yellowish deposits under the retina</td>
+                    <td>Schedule follow-up monitoring</td>
                     <td><span class="status-moderate">Moderate</span></td>
                 </tr>
                 <tr>
                     <td><strong>NORMAL</strong></td>
                     <td>Healthy Retina</td>
-                    <td>No abnormalities detected</td>
+                    <td>Routine follow-up</td>
                     <td><span class="status-none">None</span></td>
                 </tr>
             </tbody>
@@ -634,7 +634,7 @@ def render_home():
         st.markdown(
             """
         <div class="clinical-notice">
-            <strong>Clinical Disclaimer:</strong> This tool is designed to assist clinical 
+            <strong>Clinical Disclaimer:</strong> This tool assists clinical 
             decision-making and does not replace professional medical judgment. All results 
             should be verified by qualified ophthalmologists.
         </div>
@@ -644,38 +644,20 @@ def render_home():
 
     with col2:
         st.markdown(
-            '<h3 class="section-header">Quick Stats</h3>', unsafe_allow_html=True
+            '<h3 class="section-header">Quick Actions</h3>', unsafe_allow_html=True
         )
 
-        st.markdown(
-            """
-        <div class="metric-card" style="margin-bottom: 16px;">
-            <p class="metric-value">98.66%</p>
-            <p class="metric-label">Model Accuracy</p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        if st.button("Start New Analysis", type="primary", use_container_width=True):
+            st.session_state.nav_to_analyze = True
+            st.rerun()
 
-        st.markdown(
-            """
-        <div class="metric-card" style="margin-bottom: 16px;">
-            <p class="metric-value">4</p>
-            <p class="metric-label">Classification Classes</p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        st.markdown(
-            """
-        <div class="metric-card" style="margin-bottom: 16px;">
-            <p class="metric-value">84K+</p>
-            <p class="metric-label">Training Images</p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        if st.button("View Analysis History", use_container_width=True):
+            st.session_state.nav_to_history = True
+            st.rerun()
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         st.markdown(
             """
@@ -684,12 +666,14 @@ def render_home():
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#0e7490">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
-                SDG 3: Good Health
+                How It Works
             </h3>
-            <p style="color: #0e7490; font-size: 13px; margin: 0;">
-                Supporting early detection of retinal diseases and addressing global 
-                ophthalmologist shortages.
-            </p>
+            <ol style="color: #0e7490; font-size: 13px; margin: 0; padding-left: 20px;">
+                <li>Upload an OCT scan image</li>
+                <li>AI analyzes the retinal layers</li>
+                <li>View classification and attention map</li>
+                <li>Review clinical recommendations</li>
+            </ol>
         </div>
         """,
             unsafe_allow_html=True,
@@ -697,11 +681,63 @@ def render_home():
 
 
 # =============================================================================
-# Page: Dashboard
+# Page: History
 # =============================================================================
-def render_dashboard():
+def render_history():
     st.markdown(
-        '<h3 class="section-header">Performance Overview</h3>', unsafe_allow_html=True
+        '<h3 class="section-header">Analysis History</h3>',
+        unsafe_allow_html=True,
+    )
+
+    if st.session_state.analysis_history:
+        for entry in st.session_state.analysis_history:
+            priority_info = CLASS_DETAILS[entry["predicted_class"]]
+            st.markdown(
+                f"""
+                <div class="info-card" style="padding: 12px 16px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>{entry["image_name"]}</strong>
+                            <span class="{priority_info["status_class"]}" style="margin-left: 8px;">
+                                {entry["predicted_class"]}
+                            </span>
+                        </div>
+                        <div style="text-align: right; color: #64748b; font-size: 12px;">
+                            {entry["confidence"] * 100:.1f}% | {entry["timestamp"]}
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        if st.button("Clear History", use_container_width=True):
+            st.session_state.analysis_history = []
+            st.rerun()
+    else:
+        st.info("No analysis history yet. Analyze some images to see them here.")
+
+        st.markdown(
+            """
+        <div class="info-card">
+            <h3 class="info-card-header">How to use</h3>
+            <ol style="color: #475569; padding-left: 20px; margin: 0;">
+                <li>Go to the <strong>Analyze</strong> tab</li>
+                <li>Upload an OCT image or select a sample</li>
+                <li>Click "Analyze Image"</li>
+                <li>Your results will appear here</li>
+            </ol>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+
+# =============================================================================
+# Page: Model Info
+# =============================================================================
+def render_model_info():
+    st.markdown(
+        '<h3 class="section-header">Model Performance</h3>', unsafe_allow_html=True
     )
 
     cols = st.columns(4)
@@ -780,7 +816,28 @@ def render_dashboard():
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown(
-        '<h3 class="section-header">Condition Reference Guide</h3>',
+        '<h3 class="section-header">Model Architecture</h3>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+    <div class="info-card">
+        <table style="width: 100%; color: #475569;">
+            <tr><td style="padding: 8px 0;"><strong>Architecture</strong></td><td>VGG-16 with Batch Normalization</td></tr>
+            <tr><td style="padding: 8px 0;"><strong>Training</strong></td><td>Transfer learning from ImageNet</td></tr>
+            <tr><td style="padding: 8px 0;"><strong>Input Size</strong></td><td>224 x 224 pixels</td></tr>
+            <tr><td style="padding: 8px 0;"><strong>Output Classes</strong></td><td>4 (CNV, DME, DRUSEN, NORMAL)</td></tr>
+            <tr><td style="padding: 8px 0;"><strong>Dataset</strong></td><td>84,495 OCT images (Kaggle)</td></tr>
+            <tr><td style="padding: 8px 0;"><strong>XAI Method</strong></td><td>Grad-CAM++ for attention visualization</td></tr>
+        </table>
+    </div>
+    """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        '<h3 class="section-header">Condition Reference</h3>',
         unsafe_allow_html=True,
     )
 
@@ -798,38 +855,6 @@ def render_dashboard():
                     f"<span class='{info['status_class']}'>{info['priority']}</span>",
                     unsafe_allow_html=True,
                 )
-
-    st.markdown(
-        '<h3 class="section-header">Analysis History</h3>',
-        unsafe_allow_html=True,
-    )
-
-    if st.session_state.analysis_history:
-        for entry in st.session_state.analysis_history:
-            priority_info = CLASS_DETAILS[entry["predicted_class"]]
-            st.markdown(
-                f"""
-                <div class="info-card" style="padding: 12px 16px; margin-bottom: 8px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <strong>{entry["image_name"]}</strong>
-                            <span class="{priority_info["status_class"]}" style="margin-left: 8px;">
-                                {entry["predicted_class"]}
-                            </span>
-                        </div>
-                        <div style="text-align: right; color: #64748b; font-size: 12px;">
-                            {entry["confidence"] * 100:.1f}% | {entry["timestamp"]}
-                        </div>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-        if st.button("Clear History", use_container_width=True):
-            st.session_state.analysis_history = []
-            st.rerun()
-    else:
-        st.info("No analysis history yet. Analyze some images to see them here.")
 
 
 # =============================================================================
@@ -1117,12 +1142,22 @@ if "analysis_history" not in st.session_state:
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = False
 
+if "nav_to_analyze" in st.session_state and st.session_state.nav_to_analyze:
+    st.session_state.nav_to_analyze = False
+    selected = "Analyze"
+
+if "nav_to_history" in st.session_state and st.session_state.nav_to_history:
+    st.session_state.nav_to_history = False
+    selected = "History"
+
 if selected == "Home":
     render_home()
-elif selected == "Dashboard":
-    render_dashboard()
-elif selected == "Analyze Image":
+elif selected == "Analyze":
     render_analyze()
+elif selected == "History":
+    render_history()
+elif selected == "Model Info":
+    render_model_info()
 elif selected == "About":
     render_about()
 else:
