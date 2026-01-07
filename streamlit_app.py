@@ -11,6 +11,11 @@ Usage:
     streamlit run streamlit_app.py
 """
 
+import io
+from datetime import datetime
+from pathlib import Path
+
+import numpy as np
 import streamlit as st
 import streamlit_antd_components as sac
 import plotly.express as px
@@ -325,6 +330,49 @@ header {visibility: hidden;}
 [data-testid="stSidebar"] {
     display: none;
 }
+
+/* Dark mode styles */
+.dark-mode {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+}
+
+.dark-mode .info-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .metric-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.dark-mode .metric-value {
+    color: #f1f5f9;
+}
+
+.dark-mode .nav-container {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.dark-mode .section-header {
+    color: #f1f5f9;
+    border-bottom-color: #334155;
+}
+
+.dark-mode .result-box {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-color: #334155;
+}
+
+.dark-mode .result-title {
+    color: #f1f5f9;
+}
 </style>
 """,
     unsafe_allow_html=True,
@@ -383,6 +431,45 @@ def get_model():
 
 
 # =============================================================================
+# Sample Images
+# =============================================================================
+SAMPLE_IMAGES = {
+    "CNV": "data/CNV.jpeg",
+    "DME": "data/DME.jpeg",
+    "DRUSEN": "data/DRUSEN.jpeg",
+    "NORMAL": "data/NORMAL.jpeg",
+}
+
+
+# =============================================================================
+# Helper Functions
+# =============================================================================
+def get_image_download_buffer(image_array: np.ndarray) -> io.BytesIO:
+    """Convert numpy array to downloadable buffer."""
+    img = Image.fromarray(image_array)
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer
+
+
+def add_to_history(result: dict, image_name: str):
+    """Add analysis result to session history."""
+    if "analysis_history" not in st.session_state:
+        st.session_state.analysis_history = []
+
+    history_entry = {
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "image_name": image_name,
+        "predicted_class": result["predicted_class"],
+        "confidence": result["confidence"],
+    }
+    st.session_state.analysis_history.insert(0, history_entry)
+    # Keep only last 10 entries
+    st.session_state.analysis_history = st.session_state.analysis_history[:10]
+
+
+# =============================================================================
 # Top Header with User Info
 # =============================================================================
 st.markdown(
@@ -421,21 +508,50 @@ st.markdown(
 # =============================================================================
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
 
-selected = sac.menu(
+selected = sac.tabs(
     [
-        sac.MenuItem("Home", icon="house-door"),
-        sac.MenuItem("Dashboard", icon="graph-up"),
-        sac.MenuItem("Analyze Image", icon="search"),
-        sac.MenuItem("About", icon="info-circle"),
+        sac.TabsItem("Home", icon="house-door"),
+        sac.TabsItem("Dashboard", icon="graph-up"),
+        sac.TabsItem("Analyze Image", icon="search"),
+        sac.TabsItem("About", icon="info-circle"),
     ],
     index=0,
     format_func="title",
-    open_all=True,
-    indent=24,
-    direction="horizontal",
+    align="center",
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+toggle_col1, toggle_col2, toggle_col3 = st.columns([4, 1, 1])
+with toggle_col3:
+    dark_mode = st.toggle(
+        "Dark Mode", value=st.session_state.dark_mode, key="dark_toggle"
+    )
+    if dark_mode != st.session_state.dark_mode:
+        st.session_state.dark_mode = dark_mode
+        st.rerun()
+
+if st.session_state.dark_mode:
+    st.markdown(
+        """
+        <script>
+            document.body.classList.add('dark-mode');
+        </script>
+        <style>
+            .stApp { background-color: #0f172a; color: #f1f5f9; }
+            .stMarkdown, .stText, p, span, label { color: #f1f5f9 !important; }
+            .info-card, .metric-card, .nav-container { 
+                background: #1e293b !important; 
+                border-color: #334155 !important; 
+            }
+            .info-card-header, .metric-value, .section-header, .result-title { 
+                color: #f1f5f9 !important; 
+            }
+            .metric-label { color: #94a3b8 !important; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # =============================================================================
@@ -680,6 +796,38 @@ def render_dashboard():
                     unsafe_allow_html=True,
                 )
 
+    st.markdown(
+        '<h3 class="section-header">Analysis History</h3>',
+        unsafe_allow_html=True,
+    )
+
+    if st.session_state.analysis_history:
+        for entry in st.session_state.analysis_history:
+            priority_info = CLASS_DETAILS[entry["predicted_class"]]
+            st.markdown(
+                f"""
+                <div class="info-card" style="padding: 12px 16px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>{entry["image_name"]}</strong>
+                            <span class="{priority_info["status_class"]}" style="margin-left: 8px;">
+                                {entry["predicted_class"]}
+                            </span>
+                        </div>
+                        <div style="text-align: right; color: #64748b; font-size: 12px;">
+                            {entry["confidence"] * 100:.1f}% | {entry["timestamp"]}
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        if st.button("Clear History", use_container_width=True):
+            st.session_state.analysis_history = []
+            st.rerun()
+    else:
+        st.info("No analysis history yet. Analyze some images to see them here.")
+
 
 # =============================================================================
 # Page: Analyze
@@ -706,6 +854,21 @@ def render_analyze():
             "Select OCT image file", type=["jpg", "jpeg", "png"]
         )
 
+        # Sample images section
+        st.markdown("**Or try a sample image:**")
+        sample_cols = st.columns(4)
+        selected_sample = None
+
+        for idx, (class_name, path) in enumerate(SAMPLE_IMAGES.items()):
+            with sample_cols[idx]:
+                if Path(path).exists():
+                    if st.button(
+                        class_name, key=f"sample_{class_name}", use_container_width=True
+                    ):
+                        selected_sample = path
+                        st.session_state.selected_sample = path
+                        st.session_state.sample_name = class_name
+
         with st.expander("Analysis Settings"):
             cam_method = st.selectbox(
                 "XAI Visualization Method",
@@ -713,9 +876,23 @@ def render_analyze():
             )
             overlay_alpha = st.slider("Heatmap Opacity", 0.2, 0.8, 0.5, 0.1)
 
+        # Determine which image to use
+        image = None
+        image_name = "uploaded_image"
+
         if uploaded_file:
             image = Image.open(uploaded_file).convert("RGB")
-            st.image(image, caption="Uploaded OCT Image", use_container_width=True)
+            image_name = uploaded_file.name
+        elif "selected_sample" in st.session_state and st.session_state.selected_sample:
+            sample_path = st.session_state.selected_sample
+            if Path(sample_path).exists():
+                image = Image.open(sample_path).convert("RGB")
+                image_name = st.session_state.get("sample_name", "sample")
+
+        if image:
+            st.image(
+                image, caption=f"OCT Image: {image_name}", use_container_width=True
+            )
 
             if st.button("Analyze Image", type="primary", use_container_width=True):
                 with st.spinner("Analyzing image..."):
@@ -739,7 +916,9 @@ def render_analyze():
                             CLASS_NAMES[i]: float(probabilities[0][i]) for i in range(4)
                         },
                         "heatmap": heatmap_overlay,
+                        "image_name": image_name,
                     }
+                    add_to_history(st.session_state.analysis_result, image_name)
                     st.rerun()
 
         st.markdown(
@@ -820,9 +999,21 @@ def render_analyze():
                 st.write(f"**Significance:** {info['clinical_significance']}")
                 st.write(f"**OCT Features:** {info['oct_features']}")
 
-            if st.button("Clear Results", use_container_width=True):
-                st.session_state.analysis_result = None
-                st.rerun()
+            btn_col1, btn_col2 = st.columns(2)
+            with btn_col1:
+                heatmap_buffer = get_image_download_buffer(result["heatmap"])
+                st.download_button(
+                    "Download Heatmap",
+                    data=heatmap_buffer,
+                    file_name=f"gradcam_{result.get('image_name', 'result')}.png",
+                    mime="image/png",
+                    use_container_width=True,
+                )
+            with btn_col2:
+                if st.button("Clear Results", use_container_width=True):
+                    st.session_state.analysis_result = None
+                    st.session_state.selected_sample = None
+                    st.rerun()
         else:
             st.info("Upload an OCT image and click 'Analyze Image' to see results.")
 
@@ -918,6 +1109,10 @@ def render_about():
 # =============================================================================
 if "analysis_result" not in st.session_state:
     st.session_state.analysis_result = None
+if "analysis_history" not in st.session_state:
+    st.session_state.analysis_history = []
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
 
 if selected == "Home":
     render_home()
