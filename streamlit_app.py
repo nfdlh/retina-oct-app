@@ -628,32 +628,37 @@ with header_col1:
         unsafe_allow_html=True,
     )
 
-with header_col2:
+
+# =============================================================================
+# Top Navigation with Dark Mode Toggle
+# =============================================================================
+nav_col1, nav_col2 = st.columns([9, 1])
+
+with nav_col1:
+    st.markdown('<div class="nav-container">', unsafe_allow_html=True)
+
+    selected = sac.tabs(
+        [
+            sac.TabsItem("Home", icon="house-door"),
+            sac.TabsItem("Analyze", icon="search"),
+            sac.TabsItem("History", icon="clock-history"),
+            sac.TabsItem("Model Info", icon="cpu"),
+            sac.TabsItem("About", icon="info-circle"),
+        ],
+        index=0,
+        format_func="title",
+        align="center",
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with nav_col2:
+    st.markdown("<div style='padding-top: 8px;'>", unsafe_allow_html=True)
     dark_mode = st.toggle("Dark", value=st.session_state.dark_mode, key="dark_toggle")
     if dark_mode != st.session_state.dark_mode:
         st.session_state.dark_mode = dark_mode
         st.rerun()
-
-
-# =============================================================================
-# Top Navigation
-# =============================================================================
-st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-
-selected = sac.tabs(
-    [
-        sac.TabsItem("Home", icon="house-door"),
-        sac.TabsItem("Analyze", icon="search"),
-        sac.TabsItem("History", icon="clock-history"),
-        sac.TabsItem("Model Info", icon="cpu"),
-        sac.TabsItem("About", icon="info-circle"),
-    ],
-    index=0,
-    format_func="title",
-    align="center",
-)
-
-st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 if st.session_state.dark_mode:
     st.markdown(
