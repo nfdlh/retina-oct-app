@@ -522,6 +522,9 @@ selected = sac.tabs(
 
 st.markdown("</div>", unsafe_allow_html=True)
 
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
+
 toggle_col1, toggle_col2, toggle_col3 = st.columns([4, 1, 1])
 with toggle_col3:
     dark_mode = st.toggle(
