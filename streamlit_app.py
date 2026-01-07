@@ -46,15 +46,44 @@ st.set_page_config(
 
 
 # =============================================================================
-# Custom CSS - Medical Theme with Professional Fonts
+# Custom CSS - Polished Medical Theme
 # =============================================================================
 st.markdown(
     """
 <style>
-/* Import medical-appropriate fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Apply fonts globally */
+:root {
+    --primary: #0d9488;
+    --primary-light: #14b8a6;
+    --primary-dark: #0f766e;
+    --accent: #6366f1;
+    --accent-light: #818cf8;
+    --bg-primary: #fafaf9;
+    --bg-card: #ffffff;
+    --bg-elevated: #f5f5f4;
+    --text-primary: #1c1917;
+    --text-secondary: #57534e;
+    --text-muted: #a8a29e;
+    --border: #e7e5e4;
+    --border-light: #f5f5f4;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+    --cnv-bg: #fff1f2;
+    --cnv-border: #fecdd3;
+    --cnv-text: #be123c;
+    --dme-bg: #fef3c7;
+    --dme-border: #fde68a;
+    --dme-text: #b45309;
+    --drusen-bg: #e0f2fe;
+    --drusen-border: #7dd3fc;
+    --drusen-text: #0369a1;
+    --normal-bg: #d1fae5;
+    --normal-border: #6ee7b7;
+    --normal-text: #047857;
+}
+
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -62,77 +91,69 @@ html, body, [class*="css"] {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
+    color: var(--text-primary);
 }
 
-/* Smooth scrolling and better defaults */
-* {
-    scroll-behavior: smooth;
-}
+* { scroll-behavior: smooth; }
 
-/* Remove default padding */
 .block-container {
     padding-top: 0.5rem;
     padding-bottom: 1rem;
     max-width: 1200px;
 }
 
-/* Top header bar - Enhanced */
 .top-header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0c4a6e 100%);
-    padding: 18px 32px;
-    border-radius: 0 0 20px 20px;
-    margin: -0.5rem -1rem 20px -1rem;
+    background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #0d9488 100%);
+    padding: 20px 32px;
+    border-radius: 0 0 24px 24px;
+    margin: -0.5rem -1rem 24px -1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+    box-shadow: 0 4px 24px rgba(13, 148, 136, 0.2);
 }
 
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
 .logo-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
-    border-radius: 12px;
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
 .logo-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     fill: white;
 }
 
-.logo-text {
-    color: white;
-}
+.logo-text { color: white; }
 
 .logo-title {
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     margin: 0;
     letter-spacing: -0.5px;
-    background: linear-gradient(90deg, #ffffff 0%, #e0f2fe 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: white;
 }
 
 .logo-subtitle {
-    font-size: 12px;
-    opacity: 0.7;
-    margin: 2px 0 0 0;
-    letter-spacing: 0.5px;
+    font-size: 13px;
+    opacity: 0.85;
+    margin: 4px 0 0 0;
+    letter-spacing: 0.3px;
+    color: #ccfbf1;
 }
 
 .header-right {
@@ -141,61 +162,30 @@ h1, h2, h3, h4, h5, h6 {
     gap: 20px;
 }
 
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.1);
-    padding: 8px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.15);
-    transition: all 0.2s ease;
-}
-
-.theme-toggle:hover {
-    background: rgba(255,255,255,0.2);
-}
-
-.theme-toggle svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
-}
-
-.theme-toggle span {
-    color: white;
-    font-size: 13px;
-    font-weight: 500;
-}
-
 .user-section {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     color: white;
 }
 
 .user-avatar {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
-    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 2px 12px rgba(45, 212, 191, 0.4);
+    border: 2px solid rgba(255,255,255,0.4);
 }
 
-.user-info {
-    text-align: right;
-}
+.user-info { text-align: right; }
 
 .user-greeting {
     font-size: 11px;
-    opacity: 0.7;
+    opacity: 0.8;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -208,173 +198,188 @@ h1, h2, h3, h4, h5, h6 {
     margin: 2px 0 0 0;
 }
 
-/* Navigation container - Enhanced */
 .nav-container {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border: 1px solid #e2e8f0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 6px;
     margin-bottom: 28px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Cards - Enhanced */
 .info-card {
-    background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
-    border: 1px solid #e2e8f0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
 }
 
 .info-card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    border-color: #cbd5e1;
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
 }
 
 .info-card-header {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--text-primary);
     margin: 0 0 16px 0;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Metrics - Enhanced */
 .metric-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    border: 1px solid #e0f2fe;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 24px 20px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.06);
+    box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12);
-    border-color: #38bdf8;
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
 }
 
 .metric-value {
     font-family: 'Inter', sans-serif;
     font-size: 36px;
     font-weight: 700;
-    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-dark);
     margin: 0;
 }
 
 .metric-label {
     font-size: 13px;
-    color: #64748b;
+    color: var(--text-secondary);
     margin: 8px 0 0 0;
     font-weight: 500;
 }
 
-/* Section headers - Enhanced */
 .section-header {
     font-family: 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--text-primary);
     margin: 28px 0 16px 0;
     padding-bottom: 12px;
-    border-bottom: 2px solid #e2e8f0;
+    border-bottom: 2px solid var(--border);
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Status badges - Enhanced */
 .status-high {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    color: #dc2626;
+    background: var(--cnv-bg);
+    color: var(--cnv-text);
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #fecaca;
+    border: 1px solid var(--cnv-border);
     display: inline-block;
 }
 
 .status-moderate {
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    color: #d97706;
+    background: var(--drusen-bg);
+    color: var(--drusen-text);
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #fde68a;
+    border: 1px solid var(--drusen-border);
     display: inline-block;
 }
 
 .status-none {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    color: #16a34a;
+    background: var(--normal-bg);
+    color: var(--normal-text);
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #bbf7d0;
+    border: 1px solid var(--normal-border);
     display: inline-block;
 }
 
-/* Result box - Enhanced */
 .result-box {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #cffafe 100%);
-    border: 1px solid #7dd3fc;
-    border-radius: 16px;
-    padding: 28px;
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+    border: 1px solid #5eead4;
+    border-radius: 20px;
+    padding: 32px;
     text-align: center;
     margin: 16px 0;
-    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);
+    box-shadow: 0 4px 20px rgba(13, 148, 136, 0.1);
 }
 
 .result-title {
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
-    color: #0c4a6e;
+    color: var(--primary-dark);
     margin: 0 0 8px 0;
 }
 
 .result-confidence {
     font-family: 'Inter', sans-serif;
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 800;
-    background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
     margin: 12px 0;
 }
 
-/* Table styling - Enhanced */
+.result-box-cnv {
+    background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+    border-color: #fda4af;
+}
+.result-box-cnv .result-title,
+.result-box-cnv .result-confidence { color: var(--cnv-text); }
+
+.result-box-dme {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #fcd34d;
+}
+.result-box-dme .result-title,
+.result-box-dme .result-confidence { color: var(--dme-text); }
+
+.result-box-drusen {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-color: #7dd3fc;
+}
+.result-box-drusen .result-title,
+.result-box-drusen .result-confidence { color: var(--drusen-text); }
+
+.result-box-normal {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: #6ee7b7;
+}
+.result-box-normal .result-title,
+.result-box-normal .result-confidence { color: var(--normal-text); }
+
 .condition-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-sm);
 }
 
 .condition-table th {
-    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    background: var(--bg-elevated);
     padding: 14px 16px;
     text-align: left;
     font-weight: 600;
-    color: #334155;
-    border-bottom: 2px solid #e2e8f0;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border);
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -382,107 +387,99 @@ h1, h2, h3, h4, h5, h6 {
 
 .condition-table td {
     padding: 14px 16px;
-    border-bottom: 1px solid #f1f5f9;
-    color: #475569;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
 .condition-table tr:hover td {
-    background: #f8fafc;
+    background: var(--bg-elevated);
 }
 
 .condition-table tr:last-child td {
     border-bottom: none;
 }
 
-/* Notice box - Enhanced */
 .clinical-notice {
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border: 1px solid #fcd34d;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fbbf24;
     border-left: 4px solid #f59e0b;
     border-radius: 12px;
     padding: 18px 22px;
     margin: 20px 0;
     font-size: 14px;
-    color: #78350f;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
+    color: #92400e;
+    box-shadow: var(--shadow-sm);
 }
 
-/* Buttons - Enhanced */
 .stButton > button {
     border-radius: 12px !important;
     font-weight: 600 !important;
     padding: 12px 24px !important;
     transition: all 0.2s ease !important;
+    border: none !important;
 }
 
 .stButton > button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    box-shadow: var(--shadow-md) !important;
 }
 
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%) !important;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%) !important;
+    color: white !important;
 }
 
-/* Hide Streamlit elements */
+.stButton > button[kind="secondary"] {
+    background: var(--bg-elevated) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 
-/* Sidebar styling */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-    border-right: 1px solid #e2e8f0;
+    background: linear-gradient(180deg, #f5f5f4 0%, #fafaf9 100%);
+    border-right: 1px solid var(--border);
 }
 
-/* Dark mode styles */
-.dark-mode .info-card {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    border-color: #334155;
-    color: #f1f5f9;
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--text-primary);
 }
 
-.dark-mode .metric-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-color: #334155;
-}
-
-.dark-mode .metric-value {
-    background: linear-gradient(135deg, #f1f5f9 0%, #38bdf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.dark-mode .nav-container {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    border-color: #334155;
-}
-
-.dark-mode .section-header {
-    color: #f1f5f9;
-    border-bottom-color: #334155;
-}
-
-.dark-mode .result-box {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-color: #334155;
-}
-
-.dark-mode .result-title {
-    color: #f1f5f9;
-}
-
-/* File uploader styling */
 .stFileUploader {
     border-radius: 12px;
 }
 
-/* Expander styling */
 .streamlit-expanderHeader {
     font-weight: 600;
     border-radius: 12px;
+    color: var(--text-primary);
+}
+
+div[data-testid="stExpander"] {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--primary) !important;
+    color: white !important;
 }
 </style>
 """,
@@ -667,17 +664,70 @@ if st.session_state.dark_mode:
     st.markdown(
         """
         <style>
+            :root {
+                --primary: #2dd4bf;
+                --primary-light: #5eead4;
+                --primary-dark: #14b8a6;
+                --bg-primary: #0f172a;
+                --bg-card: #1e293b;
+                --bg-elevated: #334155;
+                --text-primary: #f1f5f9;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --border: #334155;
+                --border-light: #475569;
+            }
             .stApp { background-color: #0f172a; color: #f1f5f9; }
             .stMarkdown, .stText, p, span, label { color: #f1f5f9 !important; }
             .info-card, .metric-card, .nav-container { 
-                background: #1e293b !important; 
+                background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important; 
                 border-color: #334155 !important; 
             }
-            .info-card-header, .metric-value, .section-header, .result-title { 
+            .info-card-header, .section-header, .result-title { 
                 color: #f1f5f9 !important; 
             }
+            .metric-value { color: #2dd4bf !important; }
             .metric-label { color: #94a3b8 !important; }
-            .top-header { background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%) !important; }
+            .top-header { 
+                background: linear-gradient(135deg, #042f2e 0%, #0f766e 50%, #0d9488 100%) !important;
+                box-shadow: 0 4px 24px rgba(13, 148, 136, 0.3) !important;
+            }
+            .result-box {
+                background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%) !important;
+                border-color: #2dd4bf !important;
+            }
+            .result-confidence { color: #2dd4bf !important; }
+            .condition-table th { 
+                background: #334155 !important; 
+                color: #f1f5f9 !important;
+            }
+            .condition-table td { 
+                color: #cbd5e1 !important;
+                border-color: #57534e !important;
+            }
+            .condition-table tr:hover td { background: #334155 !important; }
+            .clinical-notice {
+                background: linear-gradient(135deg, #422006 0%, #78350f 100%) !important;
+                border-color: #f59e0b !important;
+                color: #fef3c7 !important;
+            }
+            [data-testid="stSidebar"] {
+                background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+                border-color: #334155 !important;
+            }
+            [data-testid="stSidebar"] h1,
+            [data-testid="stSidebar"] h2,
+            [data-testid="stSidebar"] h3,
+            [data-testid="stSidebar"] p,
+            [data-testid="stSidebar"] label { color: #f1f5f9 !important; }
+            div[data-testid="stExpander"] {
+                background: #1e293b !important;
+                border-color: #334155 !important;
+            }
+            .streamlit-expanderHeader { color: #f1f5f9 !important; }
+            .stTabs [aria-selected="true"] {
+                background: #14b8a6 !important;
+            }
         </style>
         """,
         unsafe_allow_html=True,
@@ -695,12 +745,12 @@ def render_home():
             """
         <div class="info-card">
             <h3 class="info-card-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1e3a5f">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#0d9488">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
                 </svg>
                 Clinical Decision Support System
             </h3>
-            <p style="color: #475569; line-height: 1.7; margin: 0;">
+            <p style="color: #57534e; line-height: 1.7; margin: 0;">
                 Analyze OCT images to assist in detecting retinal pathologies. 
                 Upload a scan, receive instant classification with attention visualization 
                 highlighting the regions of clinical interest.
@@ -846,7 +896,7 @@ def render_history():
             """
         <div class="info-card">
             <h3 class="info-card-header">How to use</h3>
-            <ol style="color: #475569; padding-left: 20px; margin: 0;">
+            <ol style="color: #57534e; padding-left: 20px; margin: 0;">
                 <li>Go to the <strong>Analyze</strong> tab</li>
                 <li>Upload an OCT image or select a sample</li>
                 <li>Click "Analyze Image"</li>
@@ -902,10 +952,10 @@ def render_model_info():
         recall = [0.99, 0.99, 0.97, 1.00]
 
         fig.add_trace(
-            go.Bar(name="Precision", x=classes, y=precision, marker_color="#1e3a5f")
+            go.Bar(name="Precision", x=classes, y=precision, marker_color="#0f766e")
         )
         fig.add_trace(
-            go.Bar(name="Recall", x=classes, y=recall, marker_color="#0891b2")
+            go.Bar(name="Recall", x=classes, y=recall, marker_color="#2dd4bf")
         )
         fig.update_layout(
             barmode="group",
@@ -930,7 +980,7 @@ def render_model_info():
             labels=dict(x="Predicted", y="Actual", color="Count"),
             x=CLASS_NAMES,
             y=CLASS_NAMES,
-            color_continuous_scale=[[0, "#f0f9ff"], [0.5, "#38bdf8"], [1, "#0369a1"]],
+            color_continuous_scale=[[0, "#f0fdfa"], [0.5, "#2dd4bf"], [1, "#0f766e"]],
             text_auto=True,
         )
         fig.update_layout(
@@ -949,7 +999,7 @@ def render_model_info():
     st.markdown(
         """
     <div class="info-card">
-        <table style="width: 100%; color: #475569;">
+        <table style="width: 100%; color: #57534e;">
             <tr><td style="padding: 8px 0;"><strong>Architecture</strong></td><td>VGG-16 with Batch Normalization</td></tr>
             <tr><td style="padding: 8px 0;"><strong>Training</strong></td><td>Transfer learning from ImageNet</td></tr>
             <tr><td style="padding: 8px 0;"><strong>Input Size</strong></td><td>224 x 224 pixels</td></tr>
@@ -994,7 +1044,7 @@ def render_analyze():
             """
         <div class="info-card">
             <h3 class="info-card-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1e3a5f">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#0d9488">
                     <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
                 </svg>
                 Upload OCT Image
@@ -1090,7 +1140,7 @@ def render_analyze():
             """
         <div class="info-card">
             <h3 class="info-card-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1e3a5f">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#0d9488">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
                 </svg>
                 Analysis Results
@@ -1125,7 +1175,7 @@ def render_analyze():
             st.markdown("**Class Probabilities**")
             prob = result["probabilities"]
             colors = [
-                "#1e3a5f" if k == result["predicted_class"] else "#cbd5e1" for k in prob
+                "#0f766e" if k == result["predicted_class"] else "#d6d3d1" for k in prob
             ]
 
             fig = go.Figure(
@@ -1191,16 +1241,16 @@ def render_about():
             """
         <div class="info-card">
             <h3 class="info-card-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1e3a5f">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#0d9488">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
                 </svg>
                 Project Overview
             </h3>
-            <p style="color: #475569; margin-bottom: 16px;">
+            <p style="color: #57534e; margin-bottom: 16px;">
                 <strong>WQF7002 AI Techniques</strong><br>
                 Group Assignment 2025/2026
             </p>
-            <p style="color: #475569;">
+            <p style="color: #57534e;">
                 This project aims to detect retinal damages from OCT images to assist 
                 healthcare workers as a triage tool, supporting SDG 3 (Good Health and Well-being).
             </p>
@@ -1213,7 +1263,7 @@ def render_about():
             """
         <div class="info-card">
             <h3 class="info-card-header">Problem Statement</h3>
-            <ul style="color: #475569; margin: 0; padding-left: 20px;">
+            <ul style="color: #57534e; margin: 0; padding-left: 20px;">
                 <li>Many institutions conduct OCT assessment manually</li>
                 <li>Global shortage of ophthalmologists in rural areas</li>
                 <li>Early detection can prevent blindness</li>
@@ -1229,7 +1279,7 @@ def render_about():
             """
         <div class="info-card">
             <h3 class="info-card-header">Technical Details</h3>
-            <table style="width: 100%; color: #475569;">
+            <table style="width: 100%; color: #57534e;">
                 <tr><td><strong>Model</strong></td><td>VGG-16 with Batch Normalization</td></tr>
                 <tr><td><strong>Dataset</strong></td><td>84,495 OCT images (Kaggle)</td></tr>
                 <tr><td><strong>Input Size</strong></td><td>224 x 224 pixels</td></tr>
