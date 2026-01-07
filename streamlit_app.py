@@ -52,50 +52,58 @@ st.markdown(
     """
 <style>
 /* Import medical-appropriate fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Apply fonts globally */
 html, body, [class*="css"] {
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
+}
+
+/* Smooth scrolling and better defaults */
+* {
+    scroll-behavior: smooth;
 }
 
 /* Remove default padding */
 .block-container {
-    padding-top: 1rem;
+    padding-top: 0.5rem;
     padding-bottom: 1rem;
+    max-width: 1200px;
 }
 
-/* Top header bar */
+/* Top header bar - Enhanced */
 .top-header {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
-    padding: 16px 32px;
-    border-radius: 0 0 16px 16px;
-    margin: -1rem -1rem 24px -1rem;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0c4a6e 100%);
+    padding: 18px 32px;
+    border-radius: 0 0 20px 20px;
+    margin: -0.5rem -1rem 20px -1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
 }
 
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 .logo-icon {
-    width: 44px;
-    height: 44px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .logo-icon svg {
@@ -109,17 +117,56 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .logo-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
     margin: 0;
     letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #ffffff 0%, #e0f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .logo-subtitle {
     font-size: 12px;
-    opacity: 0.8;
-    margin: 0;
+    opacity: 0.7;
+    margin: 2px 0 0 0;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+.theme-toggle span {
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .user-section {
@@ -130,14 +177,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,255,255,0.2);
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    border: 2px solid rgba(255,255,255,0.3);
 }
 
 .user-info {
@@ -145,180 +194,235 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-greeting {
-    font-size: 12px;
-    opacity: 0.8;
+    font-size: 11px;
+    opacity: 0.7;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .user-name {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 15px;
-    font-weight: 500;
-    margin: 0;
+    font-weight: 600;
+    margin: 2px 0 0 0;
 }
 
-/* Navigation container */
+/* Navigation container - Enhanced */
 .nav-container {
-    background: white;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 8px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 16px;
+    padding: 6px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-/* Cards */
+/* Cards - Enhanced */
 .info-card {
-    background: white;
+    background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 24px;
     margin-bottom: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.2s ease;
+}
+
+.info-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
 }
 
 .info-card-header {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #1e3a5f;
+    color: #0f172a;
     margin: 0 0 16px 0;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Metrics */
+/* Metrics - Enhanced */
 .metric-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+    border: 1px solid #e0f2fe;
+    border-radius: 16px;
+    padding: 24px 20px;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.06);
+    transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12);
+    border-color: #38bdf8;
 }
 
 .metric-value {
-    font-family: 'Poppins', sans-serif;
-    font-size: 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 36px;
     font-weight: 700;
-    color: #1e3a5f;
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin: 0;
 }
 
 .metric-label {
     font-size: 13px;
     color: #64748b;
-    margin: 4px 0 0 0;
+    margin: 8px 0 0 0;
+    font-weight: 500;
 }
 
-/* Section headers */
+/* Section headers - Enhanced */
 .section-header {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 600;
-    color: #1e3a5f;
-    margin: 32px 0 16px 0;
-    padding-bottom: 8px;
+    color: #0f172a;
+    margin: 28px 0 16px 0;
+    padding-bottom: 12px;
     border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Status badges */
+/* Status badges - Enhanced */
 .status-high {
-    background: #fee2e2;
-    color: #991b1b;
-    padding: 4px 12px;
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    color: #dc2626;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+    border: 1px solid #fecaca;
+    display: inline-block;
 }
 
 .status-moderate {
-    background: #fef3c7;
-    color: #92400e;
-    padding: 4px 12px;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    color: #d97706;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+    border: 1px solid #fde68a;
+    display: inline-block;
 }
 
 .status-none {
-    background: #d1fae5;
-    color: #065f46;
-    padding: 4px 12px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    color: #16a34a;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+    border: 1px solid #bbf7d0;
+    display: inline-block;
 }
 
-/* Result box */
+/* Result box - Enhanced */
 .result-box {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border: 1px solid #bae6fd;
-    border-radius: 12px;
-    padding: 24px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #cffafe 100%);
+    border: 1px solid #7dd3fc;
+    border-radius: 16px;
+    padding: 28px;
     text-align: center;
     margin: 16px 0;
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);
 }
 
 .result-title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 22px;
-    font-weight: 600;
-    color: #1e3a5f;
+    font-weight: 700;
+    color: #0c4a6e;
     margin: 0 0 8px 0;
 }
 
 .result-confidence {
-    font-family: 'Poppins', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: #0369a1;
-    margin: 8px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 12px 0;
 }
 
-/* Table styling */
+/* Table styling - Enhanced */
 .condition-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
 .condition-table th {
-    background: #f8fafc;
-    padding: 12px 16px;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 14px 16px;
     text-align: left;
     font-weight: 600;
-    color: #475569;
+    color: #334155;
     border-bottom: 2px solid #e2e8f0;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .condition-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #e2e8f0;
-    color: #334155;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 14px;
 }
 
 .condition-table tr:hover td {
     background: #f8fafc;
 }
 
-/* Notice box */
+.condition-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Notice box - Enhanced */
 .clinical-notice {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1px solid #fcd34d;
     border-left: 4px solid #f59e0b;
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin: 16px 0;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 20px 0;
     font-size: 14px;
-    color: #92400e;
+    color: #78350f;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
+}
+
+/* Buttons - Enhanced */
+.stButton > button {
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s ease !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%) !important;
 }
 
 /* Hide Streamlit elements */
@@ -332,31 +436,26 @@ header {visibility: hidden;}
 }
 
 /* Dark mode styles */
-.dark-mode {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border-color: #334155;
-}
-
 .dark-mode .info-card {
-    background: #1e293b;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     border-color: #334155;
     color: #f1f5f9;
 }
 
 .dark-mode .metric-card {
-    background: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border-color: #334155;
 }
 
 .dark-mode .metric-value {
-    color: #f1f5f9;
+    background: linear-gradient(135deg, #f1f5f9 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .dark-mode .nav-container {
-    background: #1e293b;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     border-color: #334155;
 }
 
@@ -372,6 +471,17 @@ header {visibility: hidden;}
 
 .dark-mode .result-title {
     color: #f1f5f9;
+}
+
+/* File uploader styling */
+.stFileUploader {
+    border-radius: 12px;
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    font-weight: 600;
+    border-radius: 12px;
 }
 </style>
 """,
@@ -470,37 +580,59 @@ def add_to_history(result: dict, image_name: str):
 
 
 # =============================================================================
-# Top Header with User Info
+# Session State Initialization (before header)
 # =============================================================================
-st.markdown(
-    """
-<div class="top-header">
-    <div class="logo-section">
-        <div class="logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-            </svg>
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
+if "analysis_result" not in st.session_state:
+    st.session_state.analysis_result = None
+if "analysis_history" not in st.session_state:
+    st.session_state.analysis_history = []
+
+
+# =============================================================================
+# Top Header with User Info and Dark Mode Toggle
+# =============================================================================
+header_col1, header_col2 = st.columns([6, 1])
+
+with header_col1:
+    st.markdown(
+        """
+    <div class="top-header">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <p class="logo-title">Retinal OCT Analysis</p>
+                <p class="logo-subtitle">Clinical Decision Support System</p>
+            </div>
         </div>
-        <div class="logo-text">
-            <p class="logo-title">Retinal OCT Analysis</p>
-            <p class="logo-subtitle">Clinical Decision Support System</p>
+        <div class="header-right">
+            <div class="user-section">
+                <div class="user-info">
+                    <p class="user-greeting">Welcome back,</p>
+                    <p class="user-name">Dr. Clinician</p>
+                </div>
+                <div class="user-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="user-section">
-        <div class="user-info">
-            <p class="user-greeting">Welcome back,</p>
-            <p class="user-name">Dr. Clinician</p>
-        </div>
-        <div class="user-avatar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
-        </div>
-    </div>
-</div>
-""",
-    unsafe_allow_html=True,
-)
+    """,
+        unsafe_allow_html=True,
+    )
+
+with header_col2:
+    dark_mode = st.toggle("Dark", value=st.session_state.dark_mode, key="dark_toggle")
+    if dark_mode != st.session_state.dark_mode:
+        st.session_state.dark_mode = dark_mode
+        st.rerun()
 
 
 # =============================================================================
@@ -523,24 +655,9 @@ selected = sac.tabs(
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-if "dark_mode" not in st.session_state:
-    st.session_state.dark_mode = False
-
-toggle_col1, toggle_col2, toggle_col3 = st.columns([4, 1, 1])
-with toggle_col3:
-    dark_mode = st.toggle(
-        "Dark Mode", value=st.session_state.dark_mode, key="dark_toggle"
-    )
-    if dark_mode != st.session_state.dark_mode:
-        st.session_state.dark_mode = dark_mode
-        st.rerun()
-
 if st.session_state.dark_mode:
     st.markdown(
         """
-        <script>
-            document.body.classList.add('dark-mode');
-        </script>
         <style>
             .stApp { background-color: #0f172a; color: #f1f5f9; }
             .stMarkdown, .stText, p, span, label { color: #f1f5f9 !important; }
@@ -552,6 +669,7 @@ if st.session_state.dark_mode:
                 color: #f1f5f9 !important; 
             }
             .metric-label { color: #94a3b8 !important; }
+            .top-header { background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%) !important; }
         </style>
         """,
         unsafe_allow_html=True,
@@ -1135,13 +1253,6 @@ def render_about():
 # =============================================================================
 # Main Routing
 # =============================================================================
-if "analysis_result" not in st.session_state:
-    st.session_state.analysis_result = None
-if "analysis_history" not in st.session_state:
-    st.session_state.analysis_history = []
-if "dark_mode" not in st.session_state:
-    st.session_state.dark_mode = False
-
 if "nav_to_analyze" in st.session_state and st.session_state.nav_to_analyze:
     st.session_state.nav_to_analyze = False
     selected = "Analyze"
