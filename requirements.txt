@@ -8,6 +8,7 @@ torchvision>=0.15.0
 # Image Processing
 pillow>=9.0.0
 matplotlib>=3.7.0
+opencv-python-headless>=4.8.0
 
 # Explainable AI (Grad-CAM++)
 grad-cam>=1.5.0
