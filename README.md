@@ -1,11 +1,11 @@
 ---
 title: Retinal OCT Classification
-emoji: eye
-colorFrom: blue
-colorTo: cyan
-sdk: gradio
-sdk_version: 4.44.0
-app_file: app.py
+emoji: 👁
+colorFrom: green
+colorTo: teal
+sdk: streamlit
+sdk_version: 1.28.0
+app_file: streamlit_app.py
 pinned: false
 license: mit
 tags:
@@ -38,9 +38,10 @@ By automating the triage process, this application enables faster screening in r
 - **Professional Clinical Interface**: A Streamlit-based web application with a medical-grade dashboard.
 - **High-Accuracy Classification**: Leveraging a fine-tuned VGG-16 architecture with 98.66% accuracy.
 - **Explainable AI (XAI)**: Integrated Grad-CAM++ visualization to highlight pathological regions in OCT scans.
+- **Patient Report Generation**: LLM-powered (Llama 3.3 70B) patient-friendly explanations with PDF export.
 - **Multi-Class Support**: Detects four distinct categories (CNV, DME, DRUSEN, NORMAL).
+- **Analysis History**: Track previous analyses with thumbnails and results.
 - **Performance Analytics**: Real-time metrics including precision, recall, and confusion matrix visualization.
-- **Automated Testing**: Scripts for batch accuracy verification on test datasets.
 
 ## Installation
 
@@ -122,13 +123,14 @@ The heatmaps highlight:
 ## Project Structure
 
 ```
+
 retinal-oct-model/
-├── app.py                   # Hugging Face Spaces entry point (Gradio)
-├── streamlit_app.py         # Clinical web application (Streamlit)
+├── streamlit_app.py         # Main clinical web application (Streamlit)
 ├── grad_cam.py              # XAI visualization module (Grad-CAM++)
-├── test_accuracy.py         # Batch testing and evaluation script
 ├── requirements.txt         # Project dependencies
+├── .env.example             # Environment variables template
 ├── data/                    # Sample test images
+├── journal/                 # Reference papers for citations
 ├── AGENTS.md                # Guidelines for AI development
 └── README.md                # Project documentation
 ```
@@ -149,21 +151,42 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ### Hugging Face Spaces
 
-This project is configured for deployment on Hugging Face Spaces:
+This project is configured for deployment on Hugging Face Spaces using Streamlit:
 
 1. Create a new Space on [huggingface.co/spaces](https://huggingface.co/spaces)
-2. Select **Gradio** as the SDK
+2. Select **Streamlit** as the SDK
 3. Upload the following files:
-   - `app.py` (main entry point)
+   - `streamlit_app.py` (main application)
    - `grad_cam.py` (XAI module)
    - `requirements.txt`
    - `VGG16_OCT_Retina_trained_model.pt` (model weights)
-   - `data/` folder (sample images for examples)
-4. The Space will automatically build and deploy
+   - `data/` folder (sample images)
+4. Set up environment secrets (Settings → Secrets):
+   - Add `GROQ_API_KEY` for patient report generation
+5. The Space will automatically build and deploy
 
-Alternatively, use Git LFS for large model files:
+#### Using Git LFS for Large Files
+
+For model weights (>10MB), use Git LFS:
 ```bash
 git lfs install
 git lfs track "*.pt"
 git add .gitattributes
+git add VGG16_OCT_Retina_trained_model.pt
+git commit -m "Add model weights with LFS"
+git push
 ```
+
+#### Environment Variables
+
+For local development, copy `.env.example` to `.env` and add your API key:
+```bash
+cp .env.example .env
+# Edit .env and add: GROQ_API_KEY=your_api_key_here
+```
+
+## References
+
+- Choi, K. J., et al. (2021). Deep learning models for screening of high myopia using optical coherence tomography. *Scientific Reports*, 11, 21663. https://doi.org/10.1038/s41598-021-00622-x
+
+- Valerio, A. G., et al. (2025). From segmentation to explanation: Generating textual reports from MRI with LLMs. *Computer Methods and Programs in Biomedicine*, 270, 108922. https://doi.org/10.1016/j.cmpb.2025.108922
