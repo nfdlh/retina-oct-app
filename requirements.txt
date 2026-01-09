@@ -22,3 +22,10 @@ plotly>=5.18.0
 
 # Data Processing
 numpy>=1.24.0
+
+# LLM Integration (Patient Report Generation)
+groq>=0.4.0
+python-dotenv>=1.0.0
+
+# PDF Report Generation
+fpdf2>=2.7.0
