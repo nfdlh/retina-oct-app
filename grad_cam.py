@@ -5,7 +5,7 @@ This module provides explainable AI visualization for the VGG-16 retinal OCT
 classification model using Grad-CAM++ and related methods.
 
 Requirements:
-    pip install grad-cam opencv-python
+    pip install grad-cam matplotlib
 
 Usage:
     python grad_cam.py --image path/to/oct_image.jpg --output output.jpg
@@ -15,10 +15,11 @@ import argparse
 from pathlib import Path
 from typing import Optional, Tuple
 
-import cv2
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import numpy as np
 import torch
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from torch import nn
 from torchvision import models, transforms
 
@@ -197,7 +198,7 @@ def generate_gradcam(
 def apply_heatmap(
     rgb_img: np.ndarray,
     grayscale_cam: np.ndarray,
-    colormap: int = cv2.COLORMAP_JET,
+    colormap: str = "jet",
     alpha: float = 0.5,
 ) -> np.ndarray:
     """
@@ -206,18 +207,15 @@ def apply_heatmap(
     Args:
         rgb_img: Original RGB image normalized to [0, 1]
         grayscale_cam: Grayscale CAM heatmap
-        colormap: OpenCV colormap for heatmap
+        colormap: Matplotlib colormap name for heatmap
         alpha: Transparency of heatmap overlay (0-1)
 
     Returns:
         Visualization image with heatmap overlay (RGB, uint8)
     """
-    # Convert grayscale CAM to heatmap
-    heatmap = cv2.applyColorMap(np.uint8(255 * grayscale_cam), colormap)
-    heatmap = cv2.cvtColor(heatmap, cv2.COLOR_BGR2RGB)
-    heatmap = heatmap.astype(np.float32) / 255.0
+    cmap = cm.get_cmap(colormap)
+    heatmap = cmap(grayscale_cam)[:, :, :3].astype(np.float32)
 
-    # Overlay heatmap on original image
     visualization = (1 - alpha) * rgb_img + alpha * heatmap
     visualization = np.clip(visualization, 0, 1)
 
@@ -242,32 +240,38 @@ def create_comparison_image(
     Returns:
         Comparison image with labels
     """
-    # Convert original to uint8 if needed
     if original.max() <= 1.0:
         original = np.uint8(255 * original)
 
-    # Create side-by-side image
     height, width = original.shape[:2]
     comparison = np.zeros((height + 60, width * 2 + 20, 3), dtype=np.uint8)
-    comparison[:, :, :] = 255  # White background
+    comparison[:, :, :] = 255
 
-    # Place images
     comparison[50 : 50 + height, 5 : 5 + width] = original
     comparison[50 : 50 + height, 15 + width : 15 + 2 * width] = heatmap_overlay
 
-    # Add labels
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(comparison, "Original", (60, 35), font, 0.7, (0, 0, 0), 2)
-    cv2.putText(comparison, "Grad-CAM++", (width + 50, 35), font, 0.7, (0, 0, 0), 2)
+    comp_img = Image.fromarray(comparison)
+    draw = ImageDraw.Draw(comp_img)
 
-    # Add prediction info at bottom
+    try:
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
+        font_small = ImageFont.truetype(
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12
+        )
+    except (IOError, OSError):
+        font = ImageFont.load_default()
+        font_small = font
+
+    draw.text((60, 20), "Original", fill=(0, 0, 0), font=font)
+    draw.text((width + 50, 20), "Grad-CAM++", fill=(0, 0, 0), font=font)
+
     probs = probabilities[0].cpu().numpy()
     pred_text = (
         f"Prediction: {CLASS_NAMES[prediction]} ({probs[prediction] * 100:.1f}%)"
     )
-    cv2.putText(comparison, pred_text, (10, height + 55), font, 0.5, (0, 0, 0), 1)
+    draw.text((10, height + 45), pred_text, fill=(0, 0, 0), font=font_small)
 
-    return comparison
+    return np.array(comp_img)
 
 
 def explain_prediction(
@@ -316,9 +320,9 @@ def explain_prediction(
     else:
         visualization = heatmap_overlay
 
-    # Save if output path provided
     if output_path:
-        cv2.imwrite(output_path, cv2.cvtColor(visualization, cv2.COLOR_RGB2BGR))
+        output_img = Image.fromarray(visualization)
+        output_img.save(output_path)
         print(f"Saved visualization to: {output_path}")
 
     # Prepare info dict
