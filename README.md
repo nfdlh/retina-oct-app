@@ -3,7 +3,8 @@ title: Retinal OCT Classification
 emoji: 👁
 colorFrom: green
 colorTo: teal
-sdk: docker
+sdk: streamlit
+sdk_version: 1.28.0
 app_file: streamlit_app.py
 pinned: false
 license: mit
@@ -150,15 +151,14 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ### Hugging Face Spaces
 
-This project is configured for deployment on Hugging Face Spaces using Docker:
+This project is configured for deployment on Hugging Face Spaces using Streamlit:
 
 1. Create a new Space on [huggingface.co/spaces](https://huggingface.co/spaces)
-2. Select **Docker** as the SDK
+2. Select **Streamlit** as the SDK (or select Gradio, then edit README.md to change `sdk: streamlit`)
 3. Upload the following files:
    - `streamlit_app.py` (main application)
    - `grad_cam.py` (XAI module)
    - `requirements.txt`
-   - `Dockerfile`
    - `README.md`
    - `VGG16_OCT_Retina_trained_model.pt` (model weights)
    - `data/` folder (sample images)
