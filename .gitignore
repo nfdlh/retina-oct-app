@@ -108,6 +108,6 @@ result.jpg
 
 # Backup folder
 bk/
-*.pt
+# *.pt
 data/
 *.xlsx
